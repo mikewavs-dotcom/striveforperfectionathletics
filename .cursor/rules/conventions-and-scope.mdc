@@ -1,0 +1,23 @@
+---
+description: Type hints, no fabricated data, scope lock, and stop-and-ask gates
+alwaysApply: true
+---
+
+# Code conventions
+
+- Type hints on every function signature. `mypy` clean.
+- No bare `except:`. Catch specific exceptions and log them.
+- Every collector failure is caught, logged to `source_runs` with `status = failed`, and does not crash the scheduler.
+- NEVER fabricate a data value. If a field cannot be extracted, write null. Estimated counts are null unless actually counted.
+
+# Scope lock
+
+Only build what the current prompt asks for. Do NOT add features, abstractions, refactors, helper files, or "while I was in here" improvements. If you think something is missing, say so in your response and continue with the requested scope. Do not implement it.
+
+# Stop and ask before
+
+- Installing any dependency not named in the stack section
+- Deleting or dropping any table, migration, or file
+- Modifying anything in `compliance/` after it has tests passing
+- Adding a data source not specified in a prompt
+- Any action that costs money or exceeds an API free tier

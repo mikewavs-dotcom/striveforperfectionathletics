@@ -1,0 +1,17 @@
+---
+description: Non-negotiable fetch compliance — robots, denylist, rate limits, minor guard
+alwaysApply: true
+---
+
+# Compliance rules (non-negotiable)
+
+Product requirements enforced in code, committed to the client in writing.
+
+- **Robots gate**: `compliance/robots.py` exposes `RobotsGate.allowed(url)` using `urllib.robotparser`, cached 24h per domain. Every fetch calls it first. Disallowed URLs are skipped and logged to `audit_log`. NEVER add a bypass flag, force option, or override parameter to this class.
+- **Rate limiting**: per-domain token bucket, default 1 request per second, exponential backoff on 429 and 503. User-Agent string includes a contact email read from `.env`.
+- **Hard denylist**: NEVER fetch `linkedin.com`, `instagram.com`, `facebook.com`, or `x.com`, including via redirect. Check the denylist before the allowlist.
+- **Allowlist**: a fetch to a domain outside a collector's declared `allowed_domains` MUST raise, not proceed.
+- **Minor guard**: any record whose source page or extracted title indicates a person under 18 (roster pages, student athlete listings, grade markers, birth year fields) MUST be flagged `is_minor_related = true`. Flagged contacts are excluded from every export and hidden from the leads table by default. Retained only for aggregate counts.
+- **Audit log**: append-only record of every outbound fetch with timestamp, collector, URL, robots decision, response code.
+
+Stop and ask before modifying anything in `compliance/` after it has tests passing.

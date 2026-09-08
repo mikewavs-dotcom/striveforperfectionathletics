@@ -1,0 +1,64 @@
+---
+description: Core architecture, stack lock, and compliance rules for the Prospect Playground lead intelligence system
+alwaysApply: true
+---
+
+# Project: Prospect Playground Lead Intelligence System
+
+## What this is
+
+A scheduled data pipeline plus an internal web dashboard. It collects organization and contact records from five public sources, deduplicates them, scores each record 0 to 100 separately for three revenue lines (camps, panels, media contracts), and serves them to a sales team through a dashboard.
+
+Client is an NIL (name, image, likeness) agency. The three revenue lines are athlete camps, speaking panels, and media/sponsorship contracts.
+
+This is a PROTOTYPE for internal demo. It must run end to end on real data. It does not need production hardening.
+
+## Stack (LOCKED — never substitute)
+
+- Python 3.11, FastAPI, SQLAlchemy 2.x, Pydantic v2
+- PostgreSQL 15
+- `httpx` for static fetches, `selectolax` for HTML parsing
+- Playwright ONLY for pages that require JavaScript rendering
+- APScheduler, in-process
+- Anthropic Python SDK, model `claude-sonnet-4-6`, for text extraction and rationale writing
+- Next.js 14 App Router, TypeScript, Tailwind, shadcn/ui, TanStack Table
+- `uv` for Python deps, `pnpm` for Node deps
+- Config via `.env` read through `pydantic-settings`
+
+NEVER hardcode a key, URL, credential, or file path in source. All of it goes in `.env`.
+
+NEVER add: auth providers, multi-tenancy, billing, dark mode, Docker, Kubernetes, Redis, message queues, CI config, or a mobile app. None of these are in scope.
+
+## Repository structure
+
+Monorepo. Paths are relative. Never hardcode absolute paths.
+
+```
+backend/
+  app/
+    main.py
+    config.py
+    db.py
+    models/
+    api/
+    ingest/              # BaseCollector + one collector per source
+    parse/
+    extract/             # Claude rationale only — never scores
+    dedupe/
+    scoring/rubrics.py   # score weights as module constants
+    compliance/robots.py
+    jobs/
+  tests/fixtures/        # at least one HTML fixture per collector
+  alembic/
+  pyproject.toml
+frontend/
+  app/
+  components/
+  lib/
+  package.json
+.env.example
+```
+
+- `backend/` owns ingest, parse, extract, dedupe, scoring, compliance, and JSON APIs.
+- `frontend/` is the internal sales dashboard only (TanStack Table for lead lists).
+- Do not add extra apps, packages, or infra directories.

@@ -1,0 +1,14 @@
+---
+description: Deterministic 0–100 scores per offer; Claude writes rationale only
+alwaysApply: true
+---
+
+# Scoring rules
+
+Three independent scores per organization. Weights live in `scoring/rubrics.py` as editable module constants, never inline in the engine.
+
+- **Camps** rewards: verified revenue above threshold, large roster estimate, LOW events-per-year (they outsource), youth or travel org type, a named coach or executive director, geographic proximity.
+- **Panels** rewards: a recent linked `policy_events` row for that jurisdiction (highest single weight, this is the timing signal), a compliance officer contact, school district or college type, institution size, no prior contact.
+- **Media** rewards: identified sponsors on that org's properties, sponsor businesses with multiple locations, org revenue, audience size proxies, an identified marketing contact.
+
+Compute the number deterministically in Python. NEVER let the model produce the number. Use the Claude API only to write the one-sentence `rationale`, which must be plain language a salesperson can paste into an email. Store the exact input values in `signals`. A score with no rationale is a bug.

@@ -1,0 +1,36 @@
+{
+  "places": [
+    {
+      "id": "ChIJTestRiversideAAU",
+      "displayName": {"text": "Riverside AAU Basketball"},
+      "formattedAddress": "100 Court Street, Richmond, VA 23220, USA",
+      "websiteUri": "https://riverside-aau.example.com/",
+      "nationalPhoneNumber": "+1 804-555-0100",
+      "rating": 4.6,
+      "userRatingCount": 42,
+      "query_term": "AAU basketball club"
+    }
+  ],
+  "pages": [
+    {
+      "place_id": "ChIJTestRiversideAAU",
+      "url": "https://riverside-aau.example.com/",
+      "html": "<html><body><h1>Riverside AAU Basketball</h1><a href=\"/staff\">Coaches</a><a href=\"/events\">Events</a><a href=\"/roster\">Roster</a></body></html>"
+    },
+    {
+      "place_id": "ChIJTestRiversideAAU",
+      "url": "https://riverside-aau.example.com/staff",
+      "html": "<html><body><h1>Staff</h1><p>Dana Brooks, Head Coach, dana@riverside-aau.example.com</p></body></html>"
+    },
+    {
+      "place_id": "ChIJTestRiversideAAU",
+      "url": "https://riverside-aau.example.com/events",
+      "html": "<html><body><h1>Events</h1><ul><li>January 12, 2026 — Spring Showcase</li><li>March 4, 2026 — Regional Tournament</li><li>June 18, 2026 — Summer Classic</li></ul></body></html>"
+    },
+    {
+      "place_id": "ChIJTestRiversideAAU",
+      "url": "https://riverside-aau.example.com/roster",
+      "html": "<html><body><h1>Roster</h1><ul><li>Alex Rivera</li><li>Jordan Lee</li><li>Sam Patel</li><li>Chris Nguyen</li></ul></body></html>"
+    }
+  ]
+}

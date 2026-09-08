@@ -1,0 +1,24 @@
+---
+description: Database schema for Prospect Playground (UUID PKs, timestamps, enums)
+alwaysApply: true
+---
+
+# Database schema
+
+UUID primary keys. Every table has `created_at` and `updated_at`.
+
+**organizations**: `id`, `name`, `canonical_name`, `org_type` (enum: booster_club, nil_collective, youth_sports_org, travel_program, showcase_operator, high_school, school_district, college, business, other), `website`, `phone`, `street`, `city`, `state`, `postal_code`, `county`, `ein`, `annual_revenue`, `program_expenses`, `fiscal_year`, `roster_size_estimate`, `events_per_year`, `google_place_id`, `google_rating`, `google_review_count`, `location_count`, `source_urls` (JSONB array), `first_seen_at`, `last_verified_at`, `is_active`
+
+**contacts**: `id`, `organization_id` FK, `full_name`, `first_name`, `last_name`, `title_raw`, `role` (enum: athletic_director, compliance_officer, head_coach, assistant_coach, board_officer, executive_director, marketing_contact, owner, unknown), `email`, `phone`, `source_url`, `confidence` (0.0 to 1.0), `is_minor_related` (bool, default false), `first_seen_at`, `last_verified_at`
+
+**scores**: `id`, `organization_id` FK, `offer` (enum: camps, panels, media), `score` (int 0 to 100), `rationale` (text, one sentence), `signals` (JSONB), `model_version`, `scored_at`
+
+**policy_events**: `id`, `jurisdiction`, `source_url`, `event_type` (enum: policy_adopted, policy_amended, meeting_scheduled, guidance_issued), `detected_at`, `effective_date`, `summary` (max 400 chars), `content_hash`, `linked_organization_id` FK nullable
+
+**sponsors**: `id`, `brand_name`, `detected_on_url`, `detected_on_organization_id` FK nullable, `logo_image_url`, `extraction_confidence`, `matched_organization_id` FK nullable, `detected_at`
+
+**source_runs**: `id`, `collector_name`, `started_at`, `finished_at`, `status` (enum: success, partial, failed), `records_found`, `records_new`, `records_updated`, `error_message`, `pages_fetched`
+
+**audit_log**: `id`, `timestamp`, `actor`, `action`, `target_url`, `robots_allowed` (bool nullable), `notes`
+
+Do not add tables or columns unless a prompt asks. NEVER fabricate a field value; unextracted fields are null.

@@ -1,0 +1,19 @@
+# Watched policy pages. Each item is a mapping with three keys:
+#   jurisdiction: short name of the policy body (for example VA, NCAA)
+#   url: https URL of the page to fetch
+#   category: nil_policy | eligibility | compliance
+#
+# Replace the placeholders with pages you are allowed to fetch. Do not add
+# LinkedIn, Instagram, Facebook, or X URLs.
+
+- jurisdiction: VA
+  url: https://www.example.com/nil-policy-placeholder
+  category: nil_policy
+
+- jurisdiction: NCAA
+  url: https://www.example.com/athlete-eligibility-placeholder
+  category: eligibility
+
+- jurisdiction: TEST
+  url: http://127.0.0.1:1/deliberately-broken
+  category: compliance

@@ -1,0 +1,7 @@
+.env
+.venv
+__pycache__/
+*.py[cod]
+.mypy_cache/
+*.egg-info/
+backend/watchlist_hashes.json

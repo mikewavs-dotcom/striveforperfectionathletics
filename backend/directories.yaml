@@ -1,0 +1,35 @@
+# Staff directory pages. Each item is a mapping with these keys:
+#   name: organization display name
+#   url: https URL of the public staff/directory page
+#   org_type: college | high_school | school_district | youth_sports_org | other
+#   pattern: table | definition_list | cards
+#   city: optional city
+#   state: optional US state code
+#
+# pattern selects the first structured parser to try (HTML tables, definition
+# lists, or repeated card markup). If that parser returns zero people, the
+# other structured strategies run before any Claude fallback.
+#
+# Replace the placeholders with pages you are allowed to fetch. Do not add
+# LinkedIn, Instagram, Facebook, or X URLs.
+
+- name: Example University Athletics
+  url: https://www.example.com/athletics/staff-table-placeholder
+  org_type: college
+  pattern: table
+  city: Richmond
+  state: VA
+
+- name: Example Public Schools
+  url: https://www.example.com/athletics/staff-dl-placeholder
+  org_type: school_district
+  pattern: definition_list
+  city: Richmond
+  state: VA
+
+- name: Example High School Athletics
+  url: https://www.example.com/athletics/staff-cards-placeholder
+  org_type: high_school
+  pattern: cards
+  city: Richmond
+  state: VA

@@ -1,0 +1,18 @@
+---
+description: Collector contract, fixtures, and source_runs requirements
+alwaysApply: true
+---
+
+# Collector contract
+
+Every collector subclasses `BaseCollector` and implements `name`, `allowed_domains`, `fetch()`, `parse()`, `to_records()`.
+
+Every collector MUST write exactly one `source_runs` row per execution, on success and on failure.
+
+Every collector MUST call the robots gate before every fetch.
+
+Every collector MUST have at least one saved fixture in `backend/tests/fixtures/` and a test that fails when the parser returns zero records for a fixture that previously returned records.
+
+Collector failures are caught, logged to `source_runs` with `status = failed`, and must not crash the scheduler.
+
+Do not add a data source unless a prompt specifies it.
