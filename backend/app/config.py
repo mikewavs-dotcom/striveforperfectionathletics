@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     google_places_api_key: str = ""
     google_places_search_url: str = ""
     google_places_grid: str = ""
+    reachinbox_api_key: str = ""
+    reachinbox_base_url: str = "https://api.reachinbox.ai"
 
 
 @lru_cache

@@ -20,7 +20,13 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { formatDate, ORG_TYPES, orgTypeLabel, roleLabel, scoreClass } from "@/lib/labels";
 import { toPageParams, type LeadsFilters } from "@/lib/leads-params";
-import type { OrganizationDetail, OrganizationListItem, SortField } from "@/lib/types";
+import type {
+  OrganizationDetail,
+  OrganizationListItem,
+  OutreachCampaign,
+  PushLeadsResult,
+  SortField,
+} from "@/lib/types";
 
 function ScoreCell({ value }: { value: number | null }) {
   return (
@@ -36,12 +42,16 @@ export function LeadsWorkspace({
   pageSize,
   filters,
   detail,
+  outreachConfigured,
+  campaigns,
 }: {
   items: OrganizationListItem[];
   total: number;
   pageSize: number;
   filters: LeadsFilters;
   detail: OrganizationDetail | null;
+  outreachConfigured: boolean;
+  campaigns: OutreachCampaign[];
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -50,6 +60,9 @@ export function LeadsWorkspace({
   const [camps, setCamps] = useState(filters.minCamps);
   const [panels, setPanels] = useState(filters.minPanels);
   const [media, setMedia] = useState(filters.minMedia);
+  const [campaignId, setCampaignId] = useState("");
+  const [pushMessage, setPushMessage] = useState<string | null>(null);
+  const [pushing, setPushing] = useState(false);
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
 
@@ -197,6 +210,36 @@ export function LeadsWorkspace({
     URL.revokeObjectURL(url);
   }
 
+  async function pushSelected() {
+    if (selectedIds.length === 0 || campaignId === "") {
+      return;
+    }
+    setPushing(true);
+    setPushMessage(null);
+    try {
+      const response = await fetch(
+        `/api/outreach/campaigns/${encodeURIComponent(campaignId)}/leads`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ organization_ids: selectedIds }),
+        },
+      );
+      if (!response.ok) {
+        setPushMessage(`Push failed (${response.status})`);
+        return;
+      }
+      const result = (await response.json()) as PushLeadsResult;
+      setPushMessage(
+        `Pushed ${result.pushed}. Skipped minor: ${result.skipped_minor}. Skipped no email: ${result.skipped_no_email}.`,
+      );
+    } catch {
+      setPushMessage("Push failed");
+    } finally {
+      setPushing(false);
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4 lg:flex-row">
       <aside className="w-full shrink-0 space-y-4 rounded-lg border border-brand-silver bg-white p-4 lg:w-64">
@@ -274,15 +317,48 @@ export function LeadsWorkspace({
       </aside>
 
       <div className="min-w-0 flex-1 space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-neutral-600">
             {total} organizations
             {pending ? " · Updating…" : ""}
           </p>
-          <Button size="sm" variant="black" disabled={selectedIds.length === 0} onClick={() => void exportSelected()}>
-            Export selected ({selectedIds.length})
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            {outreachConfigured ? (
+              <>
+                <select
+                  className="h-8 rounded-md border border-brand-silver bg-white px-2 text-xs"
+                  value={campaignId}
+                  onChange={(event) => setCampaignId(event.target.value)}
+                  aria-label="ReachInbox campaign"
+                >
+                  <option value="">Campaign</option>
+                  {campaigns
+                    .filter((campaign) => campaign.id !== undefined)
+                    .map((campaign) => (
+                      <option key={String(campaign.id)} value={String(campaign.id)}>
+                        {campaign.name ?? String(campaign.id)}
+                      </option>
+                    ))}
+                </select>
+                <Button
+                  size="sm"
+                  disabled={selectedIds.length === 0 || campaignId === "" || pushing}
+                  onClick={() => void pushSelected()}
+                >
+                  Push to ReachInbox ({selectedIds.length})
+                </Button>
+              </>
+            ) : null}
+            <Button size="sm" variant="black" disabled={selectedIds.length === 0} onClick={() => void exportSelected()}>
+              Export selected ({selectedIds.length})
+            </Button>
+          </div>
         </div>
+        {pushMessage ? (
+          <p className="rounded-md border border-brand-silver bg-brand-orange-light px-3 py-2 text-sm">
+            {pushMessage}
+          </p>
+        ) : null}
         <div className="overflow-x-auto rounded-lg border border-brand-silver">
           <table className="w-full text-sm">
             <thead className="bg-black text-left text-xs font-bold uppercase tracking-wide text-white">

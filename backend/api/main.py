@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from sqlalchemy import Select, asc, desc, exists, func, select
 from sqlalchemy.orm import Session, aliased
 
+from backend.api.outreach import router as outreach_router
 from backend.app.db import get_session_factory
 from backend.collectors.base import BaseCollector
 from backend.collectors.nonprofit_990 import Nonprofit990Collector
@@ -79,6 +80,7 @@ _ROLE_PRIORITY: dict[ContactRole | None, int] = {
 }
 
 app = FastAPI(title="Prospect Playground")
+app.include_router(outreach_router)
 
 
 class OrganizationOfferScores(BaseModel):

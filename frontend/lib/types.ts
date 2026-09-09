@@ -165,3 +165,26 @@ export interface PaginatedPolicyEvents {
   page_size: number;
   total: number;
 }
+
+export interface OutreachStatus {
+  configured: boolean;
+}
+
+export interface OutreachCampaign {
+  id?: number | string;
+  name?: string;
+  status?: string;
+}
+
+export interface OutreachAccount {
+  id?: number | string;
+  email?: string;
+  isActive?: boolean;
+}
+
+export interface PushLeadsResult {
+  pushed: number;
+  skipped_minor: number;
+  skipped_no_email: number;
+  campaign_id: number;
+}

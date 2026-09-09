@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "message": "Campaigns fetched successfully.",
+  "data": [
+    {
+      "id": 147,
+      "name": "ABC",
+      "coreVariables": ["firstName"],
+      "dailyLimit": 200,
+      "mailsSentToday": 0,
+      "isActive": false,
+      "hasStarted": false,
+      "status": "Active",
+      "leadAddedCount": 10
+    },
+    {
+      "id": 148,
+      "name": "Draft Campaign",
+      "dailyLimit": 200
+    }
+  ]
+}

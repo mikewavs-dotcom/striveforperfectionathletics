@@ -2,6 +2,9 @@ import type {
   CollectorWithRuns,
   DashboardStats,
   OrganizationDetail,
+  OutreachAccount,
+  OutreachCampaign,
+  OutreachStatus,
   PaginatedOrganizations,
   PaginatedPolicyEvents,
 } from "@/lib/types";
@@ -47,4 +50,18 @@ export function fetchOrganization(id: string): Promise<OrganizationDetail> {
 export function fetchPolicyEvents(page = 1): Promise<PaginatedPolicyEvents> {
   const params = new URLSearchParams({ page: String(page) });
   return apiGet<PaginatedPolicyEvents>("/policy-events", params);
+}
+
+export function fetchOutreachStatus(): Promise<OutreachStatus> {
+  return apiGet<OutreachStatus>("/outreach/status");
+}
+
+export async function fetchOutreachCampaigns(): Promise<OutreachCampaign[]> {
+  const payload = await apiGet<{ campaigns: OutreachCampaign[] }>("/outreach/campaigns");
+  return payload.campaigns;
+}
+
+export async function fetchOutreachAccounts(): Promise<OutreachAccount[]> {
+  const payload = await apiGet<{ accounts: OutreachAccount[] }>("/outreach/accounts");
+  return payload.accounts;
 }

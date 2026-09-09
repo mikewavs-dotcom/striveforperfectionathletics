@@ -1,7 +1,7 @@
 import { LeadsWorkspace } from "@/components/leads-workspace";
-import { fetchOrganization, fetchOrganizations } from "@/lib/api";
+import { fetchOrganization, fetchOrganizations, fetchOutreachCampaigns, fetchOutreachStatus } from "@/lib/api";
 import { parseLeadsFilters, toApiParams } from "@/lib/leads-params";
-import type { OrganizationDetail, PaginatedOrganizations } from "@/lib/types";
+import type { OrganizationDetail, OutreachCampaign, PaginatedOrganizations } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +14,8 @@ export default async function LeadsPage({
   let list: PaginatedOrganizations = { items: [], page: filters.page, page_size: 50, total: 0 };
   let detail: OrganizationDetail | null = null;
   let error: string | null = null;
+  let outreachConfigured = false;
+  let campaigns: OutreachCampaign[] = [];
   try {
     list = await fetchOrganizations(toApiParams(filters));
     if (filters.orgId) {
@@ -25,6 +27,16 @@ export default async function LeadsPage({
     }
   } catch (caught) {
     error = caught instanceof Error ? caught.message : "Failed to load leads";
+  }
+  try {
+    const status = await fetchOutreachStatus();
+    outreachConfigured = status.configured;
+    if (outreachConfigured) {
+      campaigns = await fetchOutreachCampaigns();
+    }
+  } catch {
+    outreachConfigured = false;
+    campaigns = [];
   }
 
   return (
@@ -42,6 +54,8 @@ export default async function LeadsPage({
         pageSize={list.page_size}
         filters={filters}
         detail={detail}
+        outreachConfigured={outreachConfigured}
+        campaigns={campaigns}
       />
     </div>
   );
