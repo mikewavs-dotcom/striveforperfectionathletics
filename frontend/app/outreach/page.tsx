@@ -17,7 +17,7 @@ export default async function OutreachPage() {
   if (statusError) {
     return (
       <div className="space-y-4">
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Outreach</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Outreach</h1>
         <p className="rounded-md border border-brand-silver bg-brand-orange-light px-4 py-3 text-sm">
           {statusError}
         </p>
@@ -28,7 +28,7 @@ export default async function OutreachPage() {
   if (!configured) {
     return (
       <div className="space-y-4">
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Outreach</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Outreach</h1>
         <p className="rounded-md border border-brand-silver bg-brand-orange-light px-4 py-3 text-sm">
           Add REACHINBOX_API_KEY to .env and restart the API.
         </p>
@@ -49,7 +49,7 @@ export default async function OutreachPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Outreach</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Outreach</h1>
         <p className="text-sm text-neutral-600">
           Control the client ReachInbox workspace: campaigns, sending accounts, start and pause.
         </p>

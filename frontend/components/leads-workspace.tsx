@@ -20,6 +20,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { formatDate, ORG_TYPES, orgTypeLabel, roleLabel, scoreClass } from "@/lib/labels";
 import { toPageParams, type LeadsFilters } from "@/lib/leads-params";
+import { cn } from "@/lib/utils";
 import type {
   OrganizationDetail,
   OrganizationListItem,
@@ -34,6 +35,16 @@ function ScoreCell({ value }: { value: number | null }) {
       {value === null ? "—" : value}
     </span>
   );
+}
+
+function columnCellClass(columnId: string): string {
+  if (columnId === "org_type" || columnId === "city" || columnId === "contact_name" || columnId === "contact_role" || columnId === "last_verified") {
+    return "hidden md:table-cell";
+  }
+  if (columnId === "panels_score" || columnId === "media_score") {
+    return "hidden sm:table-cell";
+  }
+  return "";
 }
 
 export function LeadsWorkspace({
@@ -63,6 +74,7 @@ export function LeadsWorkspace({
   const [campaignId, setCampaignId] = useState("");
   const [pushMessage, setPushMessage] = useState<string | null>(null);
   const [pushing, setPushing] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
 
@@ -103,7 +115,7 @@ export function LeadsWorkspace({
       {
         accessorKey: "name",
         header: "Organization",
-        cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
+        cell: ({ row }) => <span className="block max-w-[10rem] truncate font-medium sm:max-w-none">{row.original.name}</span>,
       },
       {
         accessorKey: "org_type",
@@ -242,7 +254,12 @@ export function LeadsWorkspace({
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row">
-      <aside className="w-full shrink-0 space-y-4 rounded-lg border border-brand-silver bg-white p-4 lg:w-64">
+      <div className="lg:hidden">
+        <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => setFiltersOpen((open) => !open)}>
+          {filtersOpen ? "Hide filters" : "Show filters"}
+        </Button>
+      </div>
+      <aside className={cn("w-full shrink-0 space-y-4 rounded-lg border border-brand-silver bg-white p-4 lg:w-64", filtersOpen ? "block" : "hidden lg:block")}>
         <h2 className="font-display text-sm font-bold uppercase tracking-wide">Filters</h2>
         <div className="space-y-2">
           <Label>Org type</Label>
@@ -322,11 +339,11 @@ export function LeadsWorkspace({
             {total} organizations
             {pending ? " · Updating…" : ""}
           </p>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
             {outreachConfigured ? (
               <>
                 <select
-                  className="h-8 rounded-md border border-brand-silver bg-white px-2 text-xs"
+                  className="h-11 w-full rounded-md border border-brand-silver bg-white px-2 text-sm sm:h-8 sm:w-auto sm:min-w-[10rem] sm:text-xs"
                   value={campaignId}
                   onChange={(event) => setCampaignId(event.target.value)}
                   aria-label="ReachInbox campaign"
@@ -342,6 +359,7 @@ export function LeadsWorkspace({
                 </select>
                 <Button
                   size="sm"
+                  className="w-full sm:w-auto"
                   disabled={selectedIds.length === 0 || campaignId === "" || pushing}
                   onClick={() => void pushSelected()}
                 >
@@ -349,7 +367,13 @@ export function LeadsWorkspace({
                 </Button>
               </>
             ) : null}
-            <Button size="sm" variant="black" disabled={selectedIds.length === 0} onClick={() => void exportSelected()}>
+            <Button
+              size="sm"
+              variant="black"
+              className="w-full sm:w-auto"
+              disabled={selectedIds.length === 0}
+              onClick={() => void exportSelected()}
+            >
               Export selected ({selectedIds.length})
             </Button>
           </div>
@@ -368,7 +392,7 @@ export function LeadsWorkspace({
                     const canSort = header.column.getCanSort();
                     const field = header.column.id as SortField;
                     return (
-                      <th key={header.id} className="px-2 py-2">
+                      <th key={header.id} className={cn("px-2 py-2", columnCellClass(header.column.id))}>
                         {canSort ? (
                           <button
                             type="button"
@@ -402,7 +426,7 @@ export function LeadsWorkspace({
                     onClick={() => pushFilters({ ...filters, orgId: row.original.id })}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-2 py-1.5 align-middle">
+                      <td key={cell.id} className={cn("px-2 py-2.5 align-middle sm:py-1.5", columnCellClass(cell.column.id))}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -412,21 +436,23 @@ export function LeadsWorkspace({
             </tbody>
           </table>
         </div>
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between gap-2 text-sm">
           <Button
             variant="outline"
             size="sm"
+            className="flex-1 sm:flex-none"
             disabled={filters.page <= 1}
             onClick={() => pushFilters({ ...filters, page: filters.page - 1 })}
           >
             Previous
           </Button>
-          <span>
+          <span className="shrink-0">
             Page {filters.page} of {pageCount}
           </span>
           <Button
             variant="outline"
             size="sm"
+            className="flex-1 sm:flex-none"
             disabled={filters.page >= pageCount}
             onClick={() => pushFilters({ ...filters, page: filters.page + 1 })}
           >

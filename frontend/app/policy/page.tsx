@@ -16,7 +16,7 @@ export default async function PolicyPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Policy</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Policy</h1>
         <p className="text-sm text-neutral-600">
           Reverse-chronological NIL, eligibility, and compliance changes.
         </p>
@@ -29,10 +29,10 @@ export default async function PolicyPage() {
           <thead className="bg-black text-left text-xs font-bold uppercase tracking-wide text-white">
             <tr>
               <th className="px-4 py-2">Detected</th>
-              <th className="px-4 py-2">Jurisdiction</th>
-              <th className="px-4 py-2">Type</th>
+              <th className="hidden px-4 py-2 sm:table-cell">Jurisdiction</th>
+              <th className="hidden px-4 py-2 md:table-cell">Type</th>
               <th className="px-4 py-2">Summary</th>
-              <th className="px-4 py-2">Effective</th>
+              <th className="hidden px-4 py-2 md:table-cell">Effective</th>
               <th className="px-4 py-2">Source</th>
             </tr>
           </thead>
@@ -47,10 +47,10 @@ export default async function PolicyPage() {
               data.items.map((event) => (
                 <tr key={event.id} className="border-t border-brand-silver">
                   <td className="px-4 py-2 whitespace-nowrap">{formatDate(event.detected_at)}</td>
-                  <td className="px-4 py-2 font-medium">{event.jurisdiction}</td>
-                  <td className="px-4 py-2 capitalize">{humanizeKey(event.event_type)}</td>
+                  <td className="hidden px-4 py-2 font-medium sm:table-cell">{event.jurisdiction}</td>
+                  <td className="hidden px-4 py-2 capitalize md:table-cell">{humanizeKey(event.event_type)}</td>
                   <td className="px-4 py-2">{event.summary ?? "—"}</td>
-                  <td className="px-4 py-2 whitespace-nowrap">{formatDate(event.effective_date)}</td>
+                  <td className="hidden px-4 py-2 whitespace-nowrap md:table-cell">{formatDate(event.effective_date)}</td>
                   <td className="px-4 py-2">
                     <a
                       href={event.source_url}

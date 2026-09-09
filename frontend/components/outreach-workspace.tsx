@@ -92,8 +92,8 @@ export function OutreachWorkspace({
           <CardTitle>Create campaign</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="flex flex-wrap items-end gap-3" onSubmit={(event) => void createCampaign(event)}>
-            <div className="min-w-[16rem] flex-1 space-y-1">
+          <form className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end" onSubmit={(event) => void createCampaign(event)}>
+            <div className="min-w-0 w-full flex-1 space-y-1 sm:min-w-[16rem]">
               <Label htmlFor="campaign-name">Name</Label>
               <Input
                 id="campaign-name"
@@ -102,7 +102,7 @@ export function OutreachWorkspace({
                 placeholder="Campaign name"
               />
             </div>
-            <Button type="submit" disabled={pending || name.trim() === ""}>
+            <Button type="submit" className="w-full sm:w-auto" disabled={pending || name.trim() === ""}>
               Create
             </Button>
           </form>
@@ -135,7 +135,7 @@ export function OutreachWorkspace({
                       </td>
                       <td className="px-3 py-2">
                         {campaign.id !== undefined ? (
-                          <div className="flex gap-2">
+                          <div className="flex flex-col gap-2 sm:flex-row">
                             <Button
                               type="button"
                               size="sm"
@@ -186,7 +186,7 @@ export function OutreachWorkspace({
                 <tbody>
                   {accounts.map((account, index) => (
                     <tr key={account.id !== undefined ? String(account.id) : `account-${index}`} className="border-t border-brand-silver">
-                      <td className="px-3 py-2">{account.email ?? "—"}</td>
+                      <td className="max-w-[14rem] break-all px-3 py-2 sm:max-w-none">{account.email ?? "—"}</td>
                       <td className="px-3 py-2">
                         {account.isActive === undefined ? "—" : account.isActive ? "Yes" : "No"}
                       </td>

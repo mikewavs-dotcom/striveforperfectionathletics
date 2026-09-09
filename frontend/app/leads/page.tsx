@@ -42,7 +42,7 @@ export default async function LeadsPage({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Leads</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Leads</h1>
         <p className="text-sm text-neutral-600">Sort, filter, and verify organizations. Click a row for full detail.</p>
       </div>
       {error ? (

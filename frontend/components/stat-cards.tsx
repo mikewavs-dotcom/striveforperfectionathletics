@@ -18,7 +18,7 @@ export function StatCards({ stats }: { stats: DashboardStats }) {
             <p className="font-display text-xs font-bold uppercase tracking-wide text-neutral-500">
               {item.label}
             </p>
-            <p className="mt-1 font-display text-3xl font-extrabold text-black">
+            <p className="mt-1 font-display text-2xl font-extrabold text-black sm:text-3xl">
               {formatNumber(item.value)}
             </p>
           </CardContent>

@@ -28,9 +28,9 @@ export function RecentRunsTable({ sources }: { sources: CollectorWithRuns[] }) {
           <thead className="bg-black text-left text-xs font-bold uppercase tracking-wide text-white">
             <tr>
               <th className="px-4 py-2">Collector</th>
-              <th className="px-4 py-2">Started</th>
+              <th className="hidden px-4 py-2 sm:table-cell">Started</th>
               <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Found</th>
+              <th className="hidden px-4 py-2 md:table-cell">Found</th>
               <th className="px-4 py-2">New</th>
             </tr>
           </thead>
@@ -45,11 +45,11 @@ export function RecentRunsTable({ sources }: { sources: CollectorWithRuns[] }) {
               runs.map((run) => (
                 <tr key={run.id} className="border-t border-brand-silver">
                   <td className="px-4 py-2 font-medium">{run.collector_name}</td>
-                  <td className="px-4 py-2">{formatDateTime(run.started_at)}</td>
+                  <td className="hidden px-4 py-2 sm:table-cell">{formatDateTime(run.started_at)}</td>
                   <td className="px-4 py-2">
                     <Badge className={statusClass(run.status)}>{statusLabel(run.status)}</Badge>
                   </td>
-                  <td className="px-4 py-2 tabular-nums">{run.records_found ?? "—"}</td>
+                  <td className="hidden px-4 py-2 tabular-nums md:table-cell">{run.records_found ?? "—"}</td>
                   <td className="px-4 py-2 tabular-nums">{run.records_new ?? "—"}</td>
                 </tr>
               ))

@@ -16,7 +16,7 @@ export default async function SourcesPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide">Sources</h1>
+        <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Sources</h1>
         <p className="text-sm text-neutral-600">
           Last ten runs per collector. A flat or zero sparkline is the break signal.
         </p>
