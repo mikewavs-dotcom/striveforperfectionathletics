@@ -1,4 +1,4 @@
-# Prospect Playground dashboard
+# Strive For Perfection Athletics dashboard
 
 Internal sales dashboard. Requires the FastAPI server and `frontend/.env.local` with `API_URL`.
 

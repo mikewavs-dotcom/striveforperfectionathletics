@@ -17,7 +17,7 @@ const display = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: "Prospect Playground",
+  title: "Strive For Perfection Athletics",
   description: "Lead intelligence for Strive For Perfection Athletics",
 };
 

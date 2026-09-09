@@ -79,7 +79,7 @@ _ROLE_PRIORITY: dict[ContactRole | None, int] = {
     None: 9,
 }
 
-app = FastAPI(title="Prospect Playground")
+app = FastAPI(title="Strive For Perfection Athletics")
 app.include_router(outreach_router)
 
 

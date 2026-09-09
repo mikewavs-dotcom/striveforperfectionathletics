@@ -1,4 +1,4 @@
-# Prospect Playground
+# Strive For Perfection Athletics
 
 Scheduled lead pipeline and internal dashboard for an NIL agency. Prototype.
 

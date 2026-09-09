@@ -1,3 +1,3 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="Prospect Playground")
+app = FastAPI(title="Strive For Perfection Athletics")

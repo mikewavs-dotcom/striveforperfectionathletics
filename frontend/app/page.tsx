@@ -25,7 +25,7 @@ export default async function HomePage() {
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-2xl font-extrabold uppercase tracking-wide sm:text-3xl">Overview</h1>
-        <p className="text-sm text-neutral-600">Live pipeline totals from the Prospect Playground API.</p>
+        <p className="text-sm text-neutral-600">Live pipeline totals for Strive For Perfection Athletics.</p>
       </div>
       {error ? (
         <p className="rounded-md border border-brand-silver bg-brand-orange-light px-4 py-3 text-sm">{error}</p>

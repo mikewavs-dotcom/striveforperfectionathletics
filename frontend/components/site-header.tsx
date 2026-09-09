@@ -18,10 +18,7 @@ export function SiteHeader() {
             priority
           />
           <span className="min-w-0 leading-tight">
-            <span className="block truncate font-display text-base font-extrabold uppercase tracking-wide text-white sm:text-lg">
-              Prospect Playground
-            </span>
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange sm:block">
+            <span className="block font-display text-sm font-extrabold uppercase leading-tight tracking-wide text-white sm:text-lg">
               Strive For Perfection Athletics
             </span>
           </span>
