@@ -4,6 +4,7 @@ from alembic import context
 from sqlalchemy import create_engine
 
 from backend.app.config import get_settings
+from backend.app.db import normalize_database_url
 from backend.models import Base
 
 config = context.config
@@ -15,7 +16,7 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    url = get_settings().database_url
+    url = normalize_database_url(get_settings().database_url)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -28,7 +29,7 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
-    connectable = create_engine(get_settings().database_url)
+    connectable = create_engine(normalize_database_url(get_settings().database_url))
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
