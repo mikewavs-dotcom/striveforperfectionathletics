@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     google_places_grid: str = ""
     reachinbox_api_key: str = ""
     reachinbox_base_url: str = "https://api.reachinbox.ai"
+    apollo_api_key: str = ""
+    apollo_base_url: str = "https://api.apollo.io"
+    hunter_api_key: str = ""
+    hunter_base_url: str = "https://api.hunter.io"
 
 
 @lru_cache

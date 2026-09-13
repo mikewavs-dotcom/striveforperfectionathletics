@@ -1,0 +1,27 @@
+{
+  "total_entries": 2,
+  "people": [
+    {
+      "id": "67bdafd0c3a4c50001bbd7c2",
+      "first_name": "Jordan",
+      "last_name": "Hale",
+      "name": "Jordan Hale",
+      "title": "Athletic Director",
+      "has_email": true,
+      "organization": {
+        "name": "Riverside AAU"
+      }
+    },
+    {
+      "id": "6775057df8360a0001a6852c",
+      "first_name": "Sam",
+      "last_name": "Onlyminor",
+      "name": "Sam Onlyminor",
+      "title": "U-16 Roster Player",
+      "has_email": true,
+      "organization": {
+        "name": "Riverside AAU"
+      }
+    }
+  ]
+}

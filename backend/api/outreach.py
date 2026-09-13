@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Generator
 from typing import Annotated
 from uuid import UUID
@@ -11,6 +12,7 @@ from sqlalchemy.orm import Session
 from backend.app.config import Settings, get_settings
 from backend.app.db import get_session_factory
 from backend.models import Contact, Organization
+from backend.enrich.pipeline import EnrichmentError, enrich_organizations, enrichment_keys_configured
 from backend.outreach.reachinbox import (
     ReachInboxClient,
     ReachInboxError,
@@ -18,6 +20,8 @@ from backend.outreach.reachinbox import (
     map_accounts,
     map_campaigns,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/outreach")
 
@@ -168,6 +172,16 @@ def push_leads(
     pushed, skipped_minor, skipped_no_email, leads = _eligible_leads(
         session, body.organization_ids
     )
+    if skipped_no_email > 0 and enrichment_keys_configured(settings):
+        try:
+            enrich_organizations(session, body.organization_ids, settings)
+            session.commit()
+        except EnrichmentError:
+            session.rollback()
+            logger.exception("Enrichment failed before ReachInbox push")
+        pushed, skipped_minor, skipped_no_email, leads = _eligible_leads(
+            session, body.organization_ids
+        )
     if not leads:
         return PushLeadsResult(
             pushed=pushed,

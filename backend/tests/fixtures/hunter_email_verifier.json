@@ -1,0 +1,21 @@
+{
+  "data": {
+    "status": "valid",
+    "score": 91,
+    "email": "jordan.hale@riverside-aau.example.edu",
+    "regexp": true,
+    "gibberish": false,
+    "disposable": false,
+    "webmail": false,
+    "mx_records": true,
+    "smtp_server": true,
+    "smtp_check": true,
+    "accept_all": false,
+    "block": false
+  },
+  "meta": {
+    "params": {
+      "email": "jordan.hale@riverside-aau.example.edu"
+    }
+  }
+}

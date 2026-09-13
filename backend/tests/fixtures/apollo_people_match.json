@@ -1,0 +1,13 @@
+{
+  "person": {
+    "id": "67bdafd0c3a4c50001bbd7c2",
+    "first_name": "Jordan",
+    "last_name": "Hale",
+    "name": "Jordan Hale",
+    "title": "Athletic Director",
+    "email_status": "verified",
+    "email": "jordan.hale@riverside-aau.example.edu",
+    "match_confidence": "high",
+    "organization_id": "61f2d5a8c40b7200019e4f31"
+  }
+}

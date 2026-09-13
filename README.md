@@ -58,6 +58,9 @@ Set these in the repo-root `.env`. The backend rejects unknown keys (`extra = "f
 | `GOOGLE_PLACES_API_KEY` | Google Places API (New) key for `youth_orgs` and brand resolution |
 | `GOOGLE_PLACES_SEARCH_URL` | Places `places:searchText` endpoint |
 | `GOOGLE_PLACES_GRID` | `south,west,north,east,step_degrees` search grid |
+| `REACHINBOX_API_KEY` | ReachInbox workspace key. Empty until set; Outreach APIs return 503 |
+| `APOLLO_API_KEY` | Apollo people search. Empty until set; `GET /enrichment/status` returns `apollo: false` |
+| `HUNTER_API_KEY` | Hunter email verifier. Empty until set; `GET /enrichment/status` returns `hunter: false` |
 
 Frontend only, in `frontend/.env.local`:
 
